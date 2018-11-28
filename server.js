@@ -22,19 +22,13 @@ app.get("/cats", function (request, response) {
 
 app.post("/cat", urlencodedParser, function (request, response) {
     if (!request.body) return response.sendStatus(400);
-    console.log('request.body ', request.body);
-    console.log('catsArr[0].id ', catsArr[0].id);
     let result = null;
     for (let prop in catsArr) {
-        console.log('prop', prop);
-        console.log('catsArr[prop].id ',catsArr[prop].id);
-
         if(catsArr[prop].id == request.body.id) {
             result = catsArr[prop];
             break;
         }
     }
-    console.log('result ', result);
     response.send(result);
 });
 
