@@ -16,11 +16,11 @@ app.get("/", function (request, response) {
     response.send("<h2>Привет Express!</h2>");
 });
 
-app.get("/items", function (request, response) {
+app.get("/cats", function (request, response) {
     response.send(catsArr);
 });
 
-app.post("/item", urlencodedParser, function (request, response) {
+app.post("/cat", urlencodedParser, function (request, response) {
     if (!request.body) return response.sendStatus(400);
     console.log('request.body ', request.body);
     console.log('catsArr[0].id ', catsArr[0].id);
