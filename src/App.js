@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Avatar from './Avatar';
 
 class App extends Component {
   state = {
@@ -7,14 +8,15 @@ class App extends Component {
   };
 
   componentDidMount() {
-    fetch('http://cats.demo.javascript.ninja/cats')
+    fetch('http://localhost:3001/cats')
       .then(r => r.json())
       .then(cats => {
+          console.log('cats = ', cats);
         this.setState({
           loading: false,
           cats: cats,
         });
-        const ws = new WebSocket('ws://cats.demo.javascript.ninja');
+       /* const ws = new WebSocket('ws://cats.demo.javascript.ninja');
         ws.addEventListener('message', e => {
           const message = JSON.parse(e.data);
           if (message.action === 'add') {
@@ -32,7 +34,7 @@ class App extends Component {
               this.setState({ cats: [...cats, cat] });
             }
           }
-        });
+        });*/
       });
   }
 
@@ -43,8 +45,8 @@ class App extends Component {
         <table className="ui celled table">
           <thead>
             <tr>
-              <th>Имя</th>
-              <th>Цена</th>
+              <th>Name</th>
+              <th>Price</th>
               <th />
             </tr>
           </thead>
@@ -52,19 +54,19 @@ class App extends Component {
             {cats.map((c, idx) => [
               (idx > 1 && cats[idx - 1].generation !== c.generation) ||
               idx === 0 ? (
-                <tr>
-                  <td className="generation" colspan="3">
+                <tr key={idx+c.generation}>
+                  <td className="generation" colSpan={3}>
                     Generation {c.generation}
                   </td>
                 </tr>
               ) : null,
-              <tr>
-                <td>
-                  <img src={`http://cats.demo.javascript.ninja${c.image}`} />
+              <tr key={c.id}>
+                <td key={c.id}>
+                  <Avatar src = {c.image_url}/>
                   {c.name}
                 </td>
-                <td>{c.price} MC</td>
-                <td>Купить</td>
+                <td>{Number(c.auction.start_price.slice(0, 5)).toFixed(2)} $</td>
+                <td>Buy</td>
               </tr>,
             ])}
           </tbody>
