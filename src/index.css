@@ -16,3 +16,7 @@ img {
 .generation {
   font-weight: bold;
 }
+
+.App td.buy-btn-wrap {
+  text-align: center;
+}
