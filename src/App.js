@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Avatar from './Avatar';
+import CatsList from './CatsList';
 
 class App extends Component {
   state = {
@@ -11,7 +11,6 @@ class App extends Component {
     fetch('http://localhost:3001/cats')
       .then(r => r.json())
       .then(cats => {
-          console.log('cats = ', cats);
         this.setState({
           loading: false,
           cats: cats,
@@ -51,23 +50,8 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>
-            {cats.map((c, idx) => [
-              (idx > 1 && cats[idx - 1].generation !== c.generation) ||
-              idx === 0 ? (
-                <tr key={idx+c.generation}>
-                  <td className="generation" colSpan={3}>
-                    Generation {c.generation}
-                  </td>
-                </tr>
-              ) : null,
-              <tr key={c.id}>
-                <td key={c.id}>
-                  <Avatar src = {c.image_url}/>
-                  {c.name}
-                </td>
-                <td>{Number(c.auction.start_price.slice(0, 5)).toFixed(2)} $</td>
-                <td>Buy</td>
-              </tr>,
+            {cats.map((c, index) => [
+              <CatsList key = {c.id} cat = {c} index = {index} prevCatGeneration = {(index<1)? cats.generation : cats[index - 1].generation} />
             ])}
           </tbody>
         </table>
