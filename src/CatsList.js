@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import Avatar from "./Avatar";
 
 export default class CatsList extends Component {
+    constructor(){
+        super();
+    }
     render() {
         let {index, prevCatGeneration, cat} = this.props;
-        return ([
+        return <Fragment>
             (prevCatGeneration !== cat.generation) ? (
                 <tr key={index+cat.generation}>
                     <td className="generation" colSpan={3}>
@@ -22,6 +25,6 @@ export default class CatsList extends Component {
                     <button>Buy</button>
                 </td>
             </tr>
-        ])
+        </Fragment>
     }
 }
