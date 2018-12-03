@@ -1,20 +1,24 @@
 import React, { Component } from 'react';
-import CatsList from './CatsList';
+//import CatsList from './CatsList';
+import Category from './Category';
 
 class App extends Component {
-  state = {
-    loading: true,
-    cats: [],
-  };
+    constructor() {
+        super();
+        this.state = {
+            cats: [],
+            loading: true
+        };
+    }
 
-  componentDidMount() {
-    fetch('http://localhost:3001/cats')
-      .then(r => r.json())
-      .then(cats => {
+    async componentDidMount() {
+        const response = await fetch('http://localhost:3001/cats');
+        const json = await response.json();
         this.setState({
-          loading: false,
-          cats: cats,
-        });
+            loading: false,
+            cats: Object.assign(json)
+        })
+    }
        /* const ws = new WebSocket('ws://cats.demo.javascript.ninja');
         ws.addEventListener('message', e => {
           const message = JSON.parse(e.data);
@@ -34,11 +38,23 @@ class App extends Component {
             }
           }
         });*/
-      });
-  }
 
   render() {
-    const cats = this.state.cats.sort((a, b) => a.generation - b.generation);
+      let catsSortedByGen = [];
+      try {
+          catsSortedByGen = this.state.cats.reduce(function(acc, cat){
+              if(acc[cat.generation-1]){
+                  acc[cat.generation-1].push(cat);
+              } else {
+                  acc[cat.generation-1] = [cat];
+              }
+              return acc;
+          }, []);
+      } catch (e) {
+          console.log('Error', e)
+      }
+
+
     return (
       <div className="App">
         <table className="ui celled table">
@@ -50,9 +66,9 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>
-            {cats.map((c, index) => [
-              <CatsList key = {c.id} cat = {c} index = {index} prevCatGeneration = {(index<1)? cats.generation : cats[index - 1].generation} />
-            ])}
+            {Object.keys(catsSortedByGen).map(key => (
+                    <Category key = {key} cats = {catsSortedByGen[key]} title = {`Generation ${key}`} />
+            ))}
           </tbody>
         </table>
       </div>
