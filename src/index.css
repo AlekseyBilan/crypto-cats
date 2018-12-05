@@ -20,3 +20,8 @@ img {
 .App td.buy-btn-wrap {
   text-align: center;
 }
+
+.category-title {
+  cursor: pointer;
+  background: #cccccc;
+}

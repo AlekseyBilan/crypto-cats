@@ -67,7 +67,7 @@ class App extends Component {
           </thead>
           <tbody>
             {Object.keys(catsSortedByGen).map(key => (
-                    <Category key = {key} cats = {catsSortedByGen[key]} title = {`Generation ${key}`} />
+                    <Category key = {key} cats = {catsSortedByGen[key]} title = {`Generation ${Number(key)+1}`} />
             ))}
           </tbody>
         </table>
