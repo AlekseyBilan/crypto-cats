@@ -1,5 +1,5 @@
 import React, {Component, Fragment} from 'react';
-import Avatar from "./Avatar";
+import CatItem from "./CatItem";
 
 export default class Category extends Component {
     state = {
@@ -18,18 +18,7 @@ export default class Category extends Component {
                         {title}
                     </td>
                 </tr>
-                {this.state.isOpen && cats.map(cat => (
-                    <tr key={cat.id}>
-                        <td key={cat.id}>
-                            <Avatar src={cat.image_url}/>
-                            {cat.name || 'a cat'}
-                        </td>
-                        <td>{Number(cat.auction.start_price.slice(0, 5)).toFixed(2)} $</td>
-                        <td className="buy-btn-wrap">
-                            <button>Buy</button>
-                        </td>
-                    </tr>
-                ))}
+                <CatItem cats={cats} isGenerationOpen={this.state.isOpen}/>
             </Fragment>
         )
     }
